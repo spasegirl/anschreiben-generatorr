@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Maven build file for the Java backend of the Anschreiben Generator project.
+
+  This project is a simple Spring Boot application that exposes a REST API
+  for generating cover letters (Anschreiben). The API accepts a JSON
+  payload describing the applicant and the target position and returns a
+  PDF document containing a nicely formatted cover letter. To assemble the
+  letter text the service delegates to a Python script which
+  constructs a natural‑sounding letter using simple templates and basic
+  synonym replacement. The resulting text is rendered into a PDF using
+  Apache PDFBox.
+
+  Spring Boot 3.1 is used as the application framework and Apache PDFBox
+  2.x is pulled in to build the PDF. The dependency management section
+  brings in the correct versions of Spring dependencies. The build is
+  configured to use Java 17.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.example</groupId>
+    <artifactId>anschreiben-backend</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>Anschreiben Backend</name>
+    <description>Spring Boot service for generating cover letters</description>
+
+    <properties>
+        <java.version>17</java.version>
+        <spring-boot.version>3.1.2</spring-boot.version>
+        <!-- PDFBox version is pinned to ensure reproducible builds -->
+        <pdfbox.version>2.0.27</pdfbox.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Pull in the full set of Spring dependencies from the BOM -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <!-- Spring Boot web starter brings in Spring MVC, JSON serialization, etc. -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- Apache PDFBox for creating simple PDF documents on the fly -->
+        <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+            <version>${pdfbox.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- Spring Boot plugin packages the application as an executable jar -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>15</source>
+                    <target>15</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

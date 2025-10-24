@@ -1,0 +1,78 @@
+<div class="container">
+  <h1>Anschreiben Generator</h1>
+  <form (ngSubmit)="submit()" #coverForm="ngForm">
+    <label>
+      Name:
+      <input
+        name="applicantName"
+        [(ngModel)]="form.applicantName"
+        required
+        type="text"
+      />
+    </label>
+    <label>
+      Adresse:
+      <input
+        name="applicantAddress"
+        [(ngModel)]="form.applicantAddress"
+        type="text"
+      />
+    </label>
+    <label>
+      E‑Mail:
+      <input
+        name="applicantEmail"
+        [(ngModel)]="form.applicantEmail"
+        type="email"
+      />
+    </label>
+    <label>
+      Telefon:
+      <input
+        name="applicantPhone"
+        [(ngModel)]="form.applicantPhone"
+        type="text"
+      />
+    </label>
+    <label>
+      Jobtitel:
+      <input
+        name="jobTitle"
+        [(ngModel)]="form.jobTitle"
+        required
+        type="text"
+      />
+    </label>
+    <label>
+      Unternehmen:
+      <input
+        name="companyName"
+        [(ngModel)]="form.companyName"
+        required
+        type="text"
+      />
+    </label>
+    <label>
+      Stärken:
+      <textarea
+        name="strengths"
+        [(ngModel)]="form.strengths"
+        rows="3"
+      ></textarea>
+    </label>
+      <h2 style="padding:16px">It works, test</h2>
+      <label>
+      Motivation:
+      <textarea
+        name="motivation"
+        [(ngModel)]="form.motivation"
+        rows="3"
+      ></textarea>
+    </label>
+    <button type="submit" [disabled]="generating || !coverForm.form.valid">
+      Anschreiben generieren
+    </button>
+  </form>
+  <div *ngIf="generating">Generieren …</div>
+  <div *ngIf="error" class="error">{{ error }}</div>
+</div>

@@ -1,0 +1,5 @@
+/* Styles scoped to the root component. Additional styles can be placed here. */
+
+.container {
+  width: 100%;
+}
